@@ -1,0 +1,41 @@
+
+db:
+  image: mysql
+  ports:
+    - 3306:3306
+  volumes:
+    - ./banco :/var/lib/mysql/
+    - ./dump:/home/    
+  environment:
+    - MYSQL_ROOT_PASSWORD=teste123
+
+api:  
+  image: eboraas/apache-php
+  ports:
+    - 80:80 
+  volumes:
+    - ./:/var/www/html    
+  links: 
+    - db:mysql     
+
+client:  
+  image: ubuntu/apache
+  ports:
+    - 8000:80 
+    - 443:443    
+  volumes:
+    - ../client:/var/www/html
+  links: 
+    - api:api    
+
+
+  #api:  
+  #image: dydx/alpine-nginx-phpfpm
+  #ports:
+    #- 80:80 
+  #volumes:
+    #- ./:/var/www/
+    #- ./sites:/etc/nginx/sites-enabled
+    #- ./logsnginx:/var/log/nginx/
+  #links: 
+    #- db:mysql

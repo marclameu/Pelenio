@@ -1,0 +1,1 @@
+angular.module("pelenio", ["ngRoute", "ngMessages"]);

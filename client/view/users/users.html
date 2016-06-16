@@ -1,0 +1,15 @@
+<div class="container">
+	<table class="table" ng-show="usuarios.length > 0">
+		<h3>Usuarios cadastrados</h3>
+		<thead>			
+			<th><a href="">Nome</th>
+			<th>Email</th>		
+		</thead>	
+		<TBODY>
+			<tr ng-repeat="usuario in usuarios">			
+				<td>{{usuario.name}}</td>
+				<td>{{usuario.email}}</td>			
+			</tr>
+		</TBODY>
+	</table>
+</div>
