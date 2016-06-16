@@ -14,6 +14,8 @@
 Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
 	Route::get('usuarios', 'UserController@index');
 	Route::post('usuario', 'UserController@store');
+	
+    Route::post('login', 'AuthenticateController@login');
 });
 
 Route::get('/', function () {

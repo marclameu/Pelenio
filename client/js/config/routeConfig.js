@@ -1,6 +1,6 @@
 angular.module("pelenio").config(function($routeProvider){
 	$routeProvider
-	.when("/users", {
+	.when("/usuario/listar", {
 		templateUrl: "view/users/users.html",
 		controller: "userController",
 		resolve: {
@@ -9,7 +9,7 @@ angular.module("pelenio").config(function($routeProvider){
 			}
 		}		
 	})
-	.when("/novoUsuario", {
+	.when("/usuario/novo", {
 		templateUrl: "view/users/newUser.html",
 		controller: "newUserController"	
 	})	
