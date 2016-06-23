@@ -1,0 +1,14 @@
+<div class="jumbotron" style="max-width: 500px; margin: auto; ">
+<form name="formSeason">
+  <div class="form-group">    
+    <input type="text" class="form-control" ng-model="season.start" ui-mask="99/99/9999" >    
+  </div>
+  <div class="form-group">    
+    <input type="text" class="form-control" ng-model="season.value" placeholder="Valor em R$">  
+  </div> 
+  <div class="form-group">    
+    <input type="text" class="form-control" ng-model="season.description" placeholder="Descrição">
+  </div>
+  <button type="submit" ng-click="salvarSeason(season)" class="btn btn-block btn-primary">Cadastrar</button>
+</form>
+</div>

@@ -13,5 +13,19 @@ angular.module("pelenio").config(function($routeProvider){
 		templateUrl: "view/users/newUser.html",
 		controller: "newUserController"	
 	})	
+	.when("/usuario/detalhes/:id", {
+		templateUrl: "view/users/detalhes.html",
+		controller: "detalharUserController",
+		resolve: {
+			usuario: function($route, userService){				
+				return userService.getUsuario($route.current.params.id);
+			}			
+		}
+
+	})	
+	.when("/season/novo", {
+		templateUrl: "view/seasons/newSeason.html",
+		controller: "newSeasonController"	
+	})	
 });
 

@@ -1,14 +1,17 @@
 <div class="container">
+	<h3>Usuarios cadastrados</h3>
+	<input class="form-control" type="text" placeholder="Buscar" ng-model="filtro"/>
 	<table class="table" ng-show="usuarios.length > 0">
-		<h3>Usuarios cadastrados</h3>
 		<thead>			
 			<th><a href="">Nome</th>
 			<th>Email</th>		
+			<th>Data/Situação</th>	
 		</thead>	
 		<TBODY>
-			<tr ng-repeat="usuario in usuarios">			
-				<td>{{usuario.name}}</td>
-				<td>{{usuario.email}}</td>			
+			<tr ng-repeat="usuario in usuarios | filter:filtro">			
+				<td><a href="#/usuario/detalhes/{{usuario.id}}">{{usuario.name}}</a></td>
+				<td>{{usuario.email}}</td>	
+				<td>{{usuario.situations[0].dt_situation | date:'dd/MM/yyyy'}} - {{usuario.situations[0].active == '1' ? 'Ativo' : 'Inativo'}}</td>			
 			</tr>
 		</TBODY>
 	</table>

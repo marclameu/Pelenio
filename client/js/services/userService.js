@@ -7,8 +7,13 @@ angular.module("pelenio").factory('userService', function($http, config){
 		return $http.post(config.baseUrlApi + '/usuario', usuario);
 	};
 
+	var _getUsuario = function(id){
+		return $http.get(config.baseUrlApi + '/usuario/' + id);
+	}
+
 	return{		
 		getUsuarios: _getUsuarios,
-		salvarUsuario: _salvarUsuario
+		salvarUsuario: _salvarUsuario,
+		getUsuario: _getUsuario
 	};
 });

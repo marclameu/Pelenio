@@ -1,0 +1,15 @@
+<div class="container">
+	<h3>{{usuario.name}} - {{usuario.email}}</h3>	
+
+	<table class="table table-striped">
+		<thead>
+			<th>Data </th>
+			<th>Situação</th>
+		</thead>
+		<tr ng-repeat="situation in usuario.situations">
+			<td>{{situation.dt_situation |date: 'dd/MM/yyyy'}}</td>			
+			<td>{{situation.active == '1'? 'Ativo' : 'Inativo' }}</td>
+		</tr>
+	</table>
+	<a href="#/usuario/listar">Voltar</a>
+</div>

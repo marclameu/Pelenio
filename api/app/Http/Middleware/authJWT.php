@@ -15,7 +15,7 @@ class authJWT
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 return response()->json(['error'=>'Token expirado!'], 401);
             }else{
-                return response()->json(['error'=>'Autenticacao obrigatoria!'], 401);
+                return response()->json(['error'=>'Nao autorizado!'], 401);
             }
         }
         return $next($request);

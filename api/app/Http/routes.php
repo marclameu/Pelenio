@@ -13,9 +13,14 @@
 
 Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
 	Route::get('usuarios', 'UserController@index');
-	Route::post('usuario', 'UserController@store');
-	
+	Route::get('usuario/{id}', 'UserController@show');
+
+	Route::post('usuario', 'UserController@store');	
     Route::post('login', 'AuthenticateController@login');
+
+    Route::get('seasons', 'SeasonController@index');
+    Route::get('season/{id}', 'SeasonController@show');
+    Route::post('season', 'SeasonController@store');
 });
 
 Route::get('/', function () {

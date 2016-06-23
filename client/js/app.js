@@ -1,1 +1,1 @@
-angular.module("pelenio", ["ngRoute", "ngMessages", "ngStorage"]);
+angular.module("pelenio", ["ngRoute", "ngMessages", "ngStorage", "ui.mask"]);
