@@ -21,6 +21,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
     Route::get('seasons', 'SeasonController@index');
     Route::get('season/{id}', 'SeasonController@show');
     Route::post('season', 'SeasonController@store');
+    Route::post('season/adicionarPartida', 'SeasonController@adicionarPartida');
 });
 
 Route::get('/', function () {

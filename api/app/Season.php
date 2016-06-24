@@ -11,6 +11,26 @@ class Season extends Model
         'description', 'actual', 'value', 'number', 'start', 'end'
     ];
 
+    //functions
+
+    public function getSeasons(){
+        return $this->orderBy('actual','DESC')->get();
+    }
+
+    public function getByIdWithMatches($id){
+        return $this->where('id', '=', $id)
+            ->with(array('matches' => function($q){
+                            $q->orderBy('date_match', 'DESC');
+                    }))->get();
+    }
+
+    public function saveAndIncNumber($season){
+        $season->number = Season::max('number') + 1;
+        $season->save();
+    }
+
+    //Relacionamentos
+
     public function matches()
     {
     	return $this->hasMany('App\Match');

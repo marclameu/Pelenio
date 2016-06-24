@@ -1,0 +1,12 @@
+.form-cadastro{
+	max-width: 400px; 
+	margin: auto; 
+	padding: 10px;
+}
+input[type="text"].inputData{
+	max-width:100px;
+}
+
+input[type="text"].currency{
+	max-width:100px;
+}

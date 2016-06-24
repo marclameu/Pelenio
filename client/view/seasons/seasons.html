@@ -1,0 +1,24 @@
+<div class="container">
+	<h3>Temporadas</h3>	
+	<table class="table" ng-show="temporadas.length > 0">
+		<thead>			
+			<th>Temporada</th>
+			<th>Valor Pago</th>		
+			<th>Valor Recebido</th>
+			<th>Situação</th>
+			<th>Início</th>
+			<th>Fim</th>
+			<th>Número</th>
+		<TBODY>
+			<tr ng-repeat="temporada in temporadas">			
+				<td><a href="#/temporada/detalhes/{{temporada.id}}">{{temporada.description}}</a></td>
+				<td>{{temporada.value | currency}}</td>	
+				<td>{{temporada.income | currency }}</td>
+				<td>{{temporada.actual == '1' ? 'Aberta' : 'Encerrada'}}</td>	
+				<td>{{temporada.start | date:'dd/MM/yyyy'}} </td>			
+				<td>{{temporada.end | date:'dd/MM/yyyy'}} </td>							
+				<td>{{temporada.number}} </td>	
+			</tr>
+		</TBODY>
+	</table>
+</div>

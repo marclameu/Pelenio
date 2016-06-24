@@ -1,14 +1,18 @@
-<div class="jumbotron" style="max-width: 500px; margin: auto; ">
-<form name="formSeason">
+<div class="container form-cadastro" role="form" style="">
+  <h4>Nova temporada</h4>
+<form name="formSeason" name="seasonForm">
   <div class="form-group">    
-    <input type="text" class="form-control" ng-model="season.start" ui-mask="99/99/9999" >    
+    <label for="formGroupExampleInput">Início</label>
+    <input type="text" style="" class="form-control inputData" ng-required="true" ng-model="season.start" ui-mask="99/99/9999" >    
   </div>
   <div class="form-group">    
-    <input type="text" class="form-control" ng-model="season.value" placeholder="Valor em R$">  
-  </div> 
+    <label for="formGroupExampleInput">Valor (R$)</label>
+    <input type="text" class="form-control currency" ng-model="season.value" >  
+  </div>   
   <div class="form-group">    
-    <input type="text" class="form-control" ng-model="season.description" placeholder="Descrição">
-  </div>
-  <button type="submit" ng-click="salvarSeason(season)" class="btn btn-block btn-primary">Cadastrar</button>
+    <label for="formGroupExampleInput">Descrição</label>
+    <input type="text" max="10" class="form-control" ng-required="true" ng-model="season.description" placeholder="Descrição">
+  </div>  
+  <button type="submit" ng-enabled="seasonForm.$valid" ng-click="salvarSeason(season)" class="btn btn-primary btn-block">Cadastrar</button>
 </form>
 </div>
