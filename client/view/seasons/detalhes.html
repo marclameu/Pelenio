@@ -1,59 +1,100 @@
 <div class="container">	
-<h3>{{temporada.description}}</h3>	
-	<div ng-show="novaPartidaHabilitada">
-		<h4>Nova partida</h4>
-			<form class="form-inline" name="formMatch">
-			  <div class="form-group">
-			    <label for="inputValor">Valor</label>
-			    <input type="text" class="form-control" ng-model="partida.value" id="inputValor">
-			  </div>
-			  <div class="form-group">
-			    <label for="inputArrecadado">Arrecadado</label>
-			    <input type="text" class="form-control" ng-model="partida.income" id="inputArrecadado">
-			  </div>
-			  <div class="form-group">
-			    <label for="data">Data</label>
-			    <input type="text" class="form-control inputData"  ng-required="true"  ng-model="partida.date_match" ui-mask="99/99/9999">
-			  </div>			  
-			  <button type="submit" ng-click="adicionarPartida(partida, temporada.id)" ng-enabled="formMatch.$valid" class="btn btn-primary">Salvar</button>
-			</form>		
-	</div>
-	<div ng-show="temporada.matches.length > 0">
-		<h4>Partidas</h4>
-		<table class="table table-striped">
-			<thead>
-				<th>Valor</th>
-				<th>Arrecadado</th>
-				<th>Data</th>
-			</thead>
-			<tbody>
-				<tr ng-repeat="match in temporada.matches">
-					<td>{{match.value | currency}}</td>
-					<td>{{match.income  | currency}}</td>
-					<td>{{match.date_match | date:'dd/MM/yyyy'}}</td>
-					<td><input type="button" clas="btn" value="Detalhar"></td>
-				</tr>
-				<tr>
-					<td><strong>{{getTotalValue(temporada.matches)[0] | currency}}</strong></td>
-					<td><strong>{{getTotalValue(temporada.matches)[1] | currency}}</strong></td>
-				</tr>
-			</tbody>
-		</table>	
-	</div>
-	<div ng-show="temporada.matches.length === 0">
-		<div class="alert alert-success" role="alert">
-  			<strong>:( </strong> Não há partidas cadastradas!
+<h3><center><strong>{{temporada.description}}</strong></center></h3>
+	<div class="row">
+		<div class="col-md-4">
+			<h4>
+			<span class="glyphicon glyphicon-user" aria-hidden="true">				
+				<a href="" ng-click="setSelecao('usuarios')">Usuários</a>
+			</span>
+			</h4>
+		</div>
+		<div class="col-md-4">
+			<h4>
+			<span class="glyphicon glyphicon-rub" aria-hidden="true">
+				<a href="" ng-click="setSelecao('partidas')">Partidas</a>
+			</span>
+			</h4>
 		</div>
 	</div>
+<p>
+	<div ng-switch="selecao">
+		<div id="partidas" ng-switch-when="partidas">
+					<div ng-show="novaPartidaHabilitada">
+					<h4>Nova partida</h4>
+						<form class="form-inline" name="formMatch">
+						  <div class="form-group">
+						    <label for="inputValor">Valor</label>
+						    <input type="text" class="form-control" ng-model="partida.value" id="inputValor">
+						  </div>
+						  <div class="form-group">
+						    <label for="inputArrecadado">Arrecadado</label>
+						    <input type="text" class="form-control" ng-model="partida.income" id="inputArrecadado">
+						  </div>
+						  <div class="form-group">
+						    <label for="data">Data</label>
+						    <input type="text" class="form-control inputData"  ng-required="true"  ng-model="partida.date_match" ui-mask="99/99/9999">
+						  </div>			  
+						  <button type="submit" ng-click="adicionarPartida(partida, temporada.id)" ng-enabled="formMatch.$valid" class="btn btn-primary">Salvar</button>
+						</form>		
+					</div>
+					<div ng-show="temporada.matches.length > 0">		
+					<table class="table table-striped">
+						<thead>
+							<th>Valor</th>
+							<th>Arrecadado</th>
+							<th>Data</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="match in matches">
+								<td>{{match.value | currency}}</td>
+								<td>{{match.income  | currency}}</td>
+								<td>{{match.date_match | date:'dd/MM/yyyy'}}</td>
+								<td><input type="button" clas="btn" value="Detalhar"></td>
+							</tr>
+							<tr>
+								<td><strong>{{getTotalValue(temporada.matches)[0] | currency}}</strong></td>
+								<td><strong>{{getTotalValue(temporada.matches)[1] | currency}}</strong></td>
+							</tr>
+						</tbody>
+					</table>	
+					</div>
+					<div ng-show="temporada.matches.length === 0">
+					<div class="alert alert-success" role="alert">
+			  			<strong>:( </strong> Não há partidas cadastradas!
+					</div>
+					</div>
 
 
-	<button type="button" ng-click="habilitaAdicionarPartida()" class="btn btn-primary">Nova Partida
-	</button>
-	<p>
-		<div ng-show="menssagem">
-			<div class="alert alert-success" role="alert">
-	  			<strong> {{menssagem}} </strong>
-			</div>
+					<button type="button" ng-click="habilitaAdicionarPartida()" class="btn btn-primary">Nova Partida
+					</button>
+					<p>
+						<div ng-show="menssagem">
+						<div class="alert alert-success" role="alert">
+				  			<strong> {{menssagem}} </strong>
+						</div>
+						</div>
+					</p>
 		</div>
-	</p>
+
+		<div id="usuarios" ng-switch-when="usuarios">
+			<table class="table striped">
+				<thead>
+					<th>Nome</th>
+					<th ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail"><a href="" ng-click="hideEmail()">Email</a></th>
+					<th>Pagamento</th>
+					<th>Data</th>
+				</thead>
+				<tr ng-repeat='usuario in usuarios'>
+					<td>{{usuario.name}}</td>
+					<td ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail">{{usuario.email}}</td>
+					<td>{{usuario.seasons[0].pivot.payment | currency}}</td>
+					<td>{{usuario.seasons[0].pivot.date_payment | date}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</p>
+
 </div>
+
+

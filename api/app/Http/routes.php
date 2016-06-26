@@ -14,6 +14,7 @@
 Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
 	Route::get('usuarios', 'UserController@index');
 	Route::get('usuario/{id}', 'UserController@show');
+    Route::get('usuario/getUsersBySeasonId/{id}', 'UserController@getUsersBySeasonId');
 
 	Route::post('usuario', 'UserController@store');	
     Route::post('login', 'AuthenticateController@login');
@@ -22,6 +23,8 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
     Route::get('season/{id}', 'SeasonController@show');
     Route::post('season', 'SeasonController@store');
     Route::post('season/adicionarPartida', 'SeasonController@adicionarPartida');
+
+    Route::get('match/getMatchBySeasonId/{id}', 'MatchController@getMatchBySeasonId');
 });
 
 Route::get('/', function () {

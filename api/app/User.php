@@ -24,7 +24,8 @@ class User extends Authenticatable
     }
 
     public function seasons(){
-        return $this->belongsToMany('App\Season')->withPivot('payment', 'date_payment');
+        return $this->belongsToMany('App\Season')
+                    ->withPivot('payment', 'date_payment');
     }
 
 
@@ -41,5 +42,11 @@ class User extends Authenticatable
                 ->with(array('situations' => function($q){
                                     $q->orderBy('dt_situation', 'DESC');
                             }))->get();
+    }
+
+    public function getUsersBySeasonId($seasonId){        
+        return $this->with(['seasons' => function($query) use($seasonId){
+            $query->where('season_id', '=', array($seasonId));
+        }])->get();
     }
 }

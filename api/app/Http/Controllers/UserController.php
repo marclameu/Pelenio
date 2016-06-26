@@ -27,6 +27,10 @@ class UserController extends Controller
         return response()->json($usuarios);
     }
 
+    public function getUsersBySeasonId($seasonId){        
+        return $this->_user->getUsersBySeasonId($seasonId);
+    }
+
     public function create()
     {
     }

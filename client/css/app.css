@@ -10,3 +10,16 @@ input[type="text"].inputData{
 input[type="text"].currency{
 	max-width:100px;
 }
+
+@keyframes fadeOut
+{
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+
+
+.fade-out
+{ 
+  animation: fadeOut 1s ;
+  -webkit-animation: fadeOut 1s ;
+}

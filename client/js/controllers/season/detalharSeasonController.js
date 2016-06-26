@@ -1,6 +1,17 @@
-angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, temporada){
-	$scope.temporada = temporada.data[0];
-	console.log($scope.temporada[0]);
+angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, userService, matchService, temporada){
+	$scope.temporada = temporada.data[0];		
+	$scope.selecao = 'usuarios';
+	$scope.canShowEmail = true;
+	
+	$scope.showEmail = function(){
+		$scope.canShowEmail = true;
+		$scope.startFade = false;
+	}
+
+	$scope.hideEmail = function(){
+		$scope.startFade = true;
+		$scope.canShowEmail = false;		
+	}
 
 	$scope.habilitaAdicionarPartida = function(){
 		$scope.novaPartidaHabilitada = !$scope.novaPartidaHabilitada;
@@ -17,7 +28,7 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		result.push(values);
 		result.push(incomes);
 
-		console.log(result);
+		//console.log(result);
 		return result;
 	}
 
@@ -41,4 +52,36 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 			});
 		});
 	}
+
+	$scope.setSelecao = function(selecionado){
+		$scope.selecao = selecionado;	
+		switch(selecionado)	{
+			case 'partidas' : 
+				carregarPartidas($scope.temporada.id);
+				break;
+			case 'usuarios' :
+				carregarUsuarios($scope.temporada.id);
+				break;
+		}
+	}
+
+	var carregarPartidas = function(partidaId){
+		matchService.getMatchsBySeasonId($scope.temporada.id).success(function(response){
+			$scope.matches = response;
+			console.log(response);
+		}).error(function(response){
+			console.log('Erro encontrado => ' + response);			
+		});
+	}
+
+	var carregarUsuarios = function(partidaId){
+		userService.getUsersBySeasonId(partidaId).success(function(response){
+			$scope.usuarios = response;
+		}).error(function(response){
+			console.log('Erro ao carregar usuarios => ' + response);
+		});	
+		$scope.showEmail();	
+	}
+
+	carregarUsuarios($scope.temporada.id);	
 });

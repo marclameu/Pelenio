@@ -13,6 +13,7 @@ class SeasonController extends Controller
 {
     public function __construct(){
         $this->_season = new Season();
+        $this->middleware('jwt-auth', ['only' => 'store']);
     }
 
     public function index()
