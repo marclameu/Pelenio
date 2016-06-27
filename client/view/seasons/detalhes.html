@@ -24,11 +24,11 @@
 						<form class="form-inline" name="formMatch">
 						  <div class="form-group">
 						    <label for="inputValor">Valor</label>
-						    <input type="text" class="form-control" ng-model="partida.value" id="inputValor">
+						    <input type="text" class="form-control" ng-model="partida.value" id="inputValor" ui-money-mask="2">
 						  </div>
 						  <div class="form-group">
 						    <label for="inputArrecadado">Arrecadado</label>
-						    <input type="text" class="form-control" ng-model="partida.income" id="inputArrecadado">
+						    <input type="text" class="form-control" ng-model="partida.income" id="inputArrecadado" ui-money-mask="2">
 						  </div>
 						  <div class="form-group">
 						    <label for="data">Data</label>
@@ -85,11 +85,34 @@
 					<th>Data</th>
 				</thead>
 				<tr ng-repeat='usuario in usuarios'>
-					<td>{{usuario.name}}</td>
-					<td ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail">{{usuario.email}}</td>
-					<td>{{usuario.seasons[0].pivot.payment | currency}}</td>
+					<td>{{usuario.name}}
+					</td>
+					<td ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail">{{usuario.	email}}
+					</td>
+					<td>
+						<span  ng-show="editandoPagamento[usuario.id]">
+							<input type="text" class="currency" autofocus ng-model="payment[usuario.id]" ui-money-mask="2" />
+						</span>
+						<div ng-hide="editandoPagamento[usuario.id]" >
+							{{ (payment[usuario.id])? payment[usuario.id] : usuario.seasons[0].pivot.payment | currency}}
+						</div>
+
+					</td>
+
 					<td>{{usuario.seasons[0].pivot.date_payment | date}}</td>
-				</tr>
+					<td >
+						<input type="button" class="btn btn-success" value="Editar"
+						ng-if="!modoEdit[usuario.id]"		
+						ng-click="modoEdicaoPagamento(usuario.id, usuario.seasons[0].id,  
+										(payment[usuario.id])? payment[usuario.id] : 
+															usuario.seasons[0].pivot.payment)">
+						<input type="button" class="btn btn btn-primary" value="Salvar"
+						ng-if="modoEdit[usuario.id]"		
+						ng-click="salvarPagamento(usuario.id, usuario.seasons[0].id,  
+										(payment[usuario.id])? payment[usuario.id] : 
+															usuario.seasons[0].pivot.payment)">															
+					</td>
+				</tr>				
 			</table>
 		</div>
 	</div>

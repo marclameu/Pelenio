@@ -2,6 +2,9 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	$scope.temporada = temporada.data[0];		
 	$scope.selecao = 'usuarios';
 	$scope.canShowEmail = true;
+	$scope.editandoPagamento = [];
+	$scope.payment 			 = [];
+	$scope.modoEdit 		 = [];
 	
 	$scope.showEmail = function(){
 		$scope.canShowEmail = true;
@@ -81,6 +84,12 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 			console.log('Erro ao carregar usuarios => ' + response);
 		});	
 		$scope.showEmail();	
+	}
+
+	$scope.modoEdicaoPagamento = function(idUsuario, seasonId, payment){
+		$scope.editandoPagamento[idUsuario] = !$scope.editandoPagamento[idUsuario];
+		$scope.payment[idUsuario] = payment;
+		$scope.modoEdit[idUsuario] = true;				
 	}
 
 	carregarUsuarios($scope.temporada.id);	
