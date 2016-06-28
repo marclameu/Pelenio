@@ -10,6 +10,8 @@ use App\User;
 
 use App\Situation;
 
+use App\Season;
+
 class UserController extends Controller
 { 
 
@@ -28,9 +30,28 @@ class UserController extends Controller
     }
 
     public function updateOrCreatePayment($id, Request $request)
-    {
-        return response()->json($request->input('datePayment'));
-        //return response()->json($id);
+    {        
+        $user   =   $this->_user->find($id); 
+        $season =   $user->getSeasonById($request->input('seasonId'));
+
+        //Se não houver temporadas, criar.
+        if(is_null($season) or (is_null($season->pivot))){
+            $season = Season::find($request->input('seasonId')); 
+            $user->seasons()->save($season, [
+                                                'payment'      => $request->input('payment'),
+                                                'date_payment' => $request->input('datePayment')
+                                             ]);           
+
+            return response()->json(["Mensagem" => "Pagamento criado com sucesso!"]);
+        }
+
+        //Caso exista a temporada associada, atualiza.
+        $pivot                  =   $season->pivot;         
+        $pivot->payment         =   $request->input('payment');
+        $pivot->date_payment    =   $request->input('datePayment');
+        $pivot->update();        
+
+        return response()->json(["Mensagem" => "Pagamento atualizado com sucesso!"]);       
     }
 
     public function getUsersBySeasonId($seasonId){        

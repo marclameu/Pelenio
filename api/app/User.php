@@ -49,4 +49,10 @@ class User extends Authenticatable
             $query->where('season_id', '=', array($seasonId));
         }])->get();
     }
+
+    public function getSeasonById($seasonId){
+        return $this->seasons()
+                    ->where('id', '=', $seasonId)
+                    ->first();
+    }
 }

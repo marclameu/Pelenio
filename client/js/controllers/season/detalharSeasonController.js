@@ -127,18 +127,24 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		$scope.modoEdit[idUsuario] 			= true;				
 	}
 
-	$scope.salvarPagamento = function(idUsuario, seasonId){				
+	$scope.salvarPagamento = function(idUsuario){				
 		if(!confirm('Deseja salvar as alterações?'))
 		{
 			$scope.payment[idUsuario] 		= oldPaymentValues[idUsuario];			
 			$scope.datePayment[idUsuario]	= oldDatePaymentValues[idUsuario];
 		}
 		else{
-			params = {};
-			params.seasonId 	= seasonId;
+			params = {};				
+			params.seasonId 	= $scope.temporada.id;
 			params.payment  	= $scope.payment[idUsuario];
 			params.datePayment 	= $scope.datePayment[idUsuario].replace('/', '').replace('/', '');	
-			alert(params.datePayment);
+
+			dia = params.datePayment.substring(0,2);
+			mes = params.datePayment.substring(2,4);
+			ano = params.datePayment.substring(4,8);		
+			
+			params.datePayment = ano + '-' + mes + '-' + dia;
+			
 
 			userService.updateOrCreatePayment(idUsuario, params).success(function(response){
 		
