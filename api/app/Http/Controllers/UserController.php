@@ -27,6 +27,12 @@ class UserController extends Controller
         return response()->json($usuarios);
     }
 
+    public function updateOrCreatePayment($id, Request $request)
+    {
+        return response()->json($request->input('datePayment'));
+        //return response()->json($id);
+    }
+
     public function getUsersBySeasonId($seasonId){        
         return $this->_user->getUsersBySeasonId($seasonId);
     }

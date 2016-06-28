@@ -15,6 +15,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
 	Route::get('usuarios', 'UserController@index');
 	Route::get('usuario/{id}', 'UserController@show');
     Route::get('usuario/getUsersBySeasonId/{id}', 'UserController@getUsersBySeasonId');
+    Route::post('usuario/updateOrCreatePayment/{id}', 'UserController@updateOrCreatePayment');
 
 	Route::post('usuario', 'UserController@store');	
     Route::post('login', 'AuthenticateController@login');
