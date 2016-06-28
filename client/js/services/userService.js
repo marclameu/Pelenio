@@ -15,10 +15,15 @@ angular.module("pelenio").factory('userService', function($http, config){
 		return $http.get(config.baseUrlApi + '/usuario/getUsersBySeasonId/' + seasonId);
 	};
 
+	var _updateOrCreatePayment = function(userId, params){
+		return $http.post(config.baseUrlApi + '/usuario/updateOrCreatePayment/' + userId, params);
+	}
+
 	return{		
-		getUsuarios: 		_getUsuarios,
-		salvarUsuario: 		_salvarUsuario,
-		getUsuario: 		_getUsuario,
-		getUsersBySeasonId: _getUsersBySeasonId
+		getUsuarios: 			_getUsuarios,
+		salvarUsuario: 			_salvarUsuario,
+		getUsuario: 			_getUsuario,
+		getUsersBySeasonId: 	_getUsersBySeasonId,
+		updateOrCreatePayment: 	_updateOrCreatePayment
 	};
 });

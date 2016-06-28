@@ -1,11 +1,15 @@
 angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, userService, matchService, temporada){
-	$scope.temporada = temporada.data[0];		
-	$scope.selecao = 'usuarios';
-	$scope.canShowEmail = true;
-	$scope.editandoPagamento = [];
-	$scope.payment 			 = [];
-	$scope.modoEdit 		 = [];
-	
+	$scope.temporada 			= temporada.data[0];		
+	$scope.selecao 				= 'usuarios';
+	$scope.canShowEmail 		= true;
+	$scope.editandoPagamento	= [];
+	$scope.payment 				= [];
+	$scope.datePayment			= [];
+	$scope.modoEdit 			= [];
+	oldPaymentValues		 	= [];
+	oldDatePaymentValues	 	= [];
+
+
 	$scope.showEmail = function(){
 		$scope.canShowEmail = true;
 		$scope.startFade = false;
@@ -71,26 +75,79 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	var carregarPartidas = function(partidaId){
 		matchService.getMatchsBySeasonId($scope.temporada.id).success(function(response){
 			$scope.matches = response;
-			console.log(response);
+			//console.log(response);
 		}).error(function(response){
 			console.log('Erro encontrado => ' + response);			
 		});
 	}
 
+	$scope.formateDateFromServer = function(strDate, separator){
+		d = strDate.split('-');
+		return d[2] + separator + d[1] + separator + d[0];
+	}
+
+	$scope.formateDateToView = function(strDate, separator){
+		if(strDate === undefined)
+			return '';
+
+		if(strDate.indexOf('/') < 0){
+			d = strDate.substring(0,2) + separator;
+			d += strDate.substring(2, 4) + separator;
+			d += strDate.substring(4, 8);
+			return d;
+		}
+
+		return strDate;
+	}
+
+	var carregaInfoPagamentos = function(usuarios){		
+		usuarios.forEach(function(usuario){
+			if(usuario.seasons.length > 0){
+				$scope.payment[usuario.id] 		= usuario.seasons[0].pivot.payment;
+				$scope.datePayment[usuario.id]	= $scope.formateDateFromServer(usuario.seasons[0].pivot.date_payment, '/');								
+			}
+			$scope.modoEdit[usuario.id] 	= false;			
+		});		
+	}
+
 	var carregarUsuarios = function(partidaId){
 		userService.getUsersBySeasonId(partidaId).success(function(response){
 			$scope.usuarios = response;
+			carregaInfoPagamentos($scope.usuarios);
 		}).error(function(response){
 			console.log('Erro ao carregar usuarios => ' + response);
 		});	
 		$scope.showEmail();	
 	}
 
-	$scope.modoEdicaoPagamento = function(idUsuario, seasonId, payment){
+	$scope.modoEdicaoPagamento = function(idUsuario, seasonId){
 		$scope.editandoPagamento[idUsuario] = !$scope.editandoPagamento[idUsuario];
-		$scope.payment[idUsuario] = payment;
-		$scope.modoEdit[idUsuario] = true;				
+		oldPaymentValues[idUsuario] 		= $scope.payment[idUsuario];		
+		oldDatePaymentValues[idUsuario] 	= $scope.datePayment[idUsuario]
+		$scope.modoEdit[idUsuario] 			= true;				
 	}
 
-	carregarUsuarios($scope.temporada.id);	
+	$scope.salvarPagamento = function(idUsuario, seasonId){				
+		if(!confirm('Deseja salvar as alterações?'))
+		{
+			$scope.payment[idUsuario] 		= oldPaymentValues[idUsuario];			
+			$scope.datePayment[idUsuario]	= oldDatePaymentValues[idUsuario];
+		}
+		else{
+			params = {};
+			params.seasonId 	= seasonId;
+			params.payment  	= $scope.payment[idUsuario];
+			params.datePayment 	= $scope.datePayment[idUsuario].replace('/', '').replace('/', '');	
+			alert(params.datePayment);
+
+			userService.updateOrCreatePayment(idUsuario, params).success(function(response){
+		
+			}).error(function(response){
+				console.log('Não foi possível cadastrar o pagamento!');
+			});
+		}
+		$scope.modoEdit[idUsuario] = false;	
+	}
+
+	carregarUsuarios($scope.temporada.id);		
 });

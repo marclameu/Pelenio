@@ -77,6 +77,7 @@
 		</div>
 
 		<div id="usuarios" ng-switch-when="usuarios">
+			<input type='text' placeholder='Pesquisar' ng-model='filterUser' class='form-controll' />
 			<table class="table striped">
 				<thead>
 					<th>Nome</th>
@@ -84,33 +85,40 @@
 					<th>Pagamento</th>
 					<th>Data</th>
 				</thead>
-				<tr ng-repeat='usuario in usuarios'>
+				<tr ng-repeat='usuario in usuarios | filter: filterUser'>
 					<td>{{usuario.name}}
 					</td>
 					<td ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail">{{usuario.	email}}
 					</td>
 					<td>
-						<span  ng-show="editandoPagamento[usuario.id]">
+						<span  ng-show="modoEdit[usuario.id]">
 							<input type="text" class="currency" autofocus ng-model="payment[usuario.id]" ui-money-mask="2" />
 						</span>
-						<div ng-hide="editandoPagamento[usuario.id]" >
-							{{ (payment[usuario.id])? payment[usuario.id] : usuario.seasons[0].pivot.payment | currency}}
-						</div>
+						<span ng-hide="modoEdit[usuario.id]" >
+							{{ payment[usuario.id] | currency}}
+						</span>
 
 					</td>
 
-					<td>{{usuario.seasons[0].pivot.date_payment | date}}</td>
+					<td>
+						<span  ng-show="modoEdit[usuario.id]">
+							<input type="text" class="inputData" ui-mask="99/99/9999" autofocus ng-model="datePayment[usuario.id]" />
+						</span>						
+						<span ng-hide="modoEdit[usuario.id]" >
+							{{(formateDateToView(datePayment[usuario.id], "/"))}}		
+						</span>							
+					</td>
 					<td >
 						<input type="button" class="btn btn-success" value="Editar"
 						ng-if="!modoEdit[usuario.id]"		
 						ng-click="modoEdicaoPagamento(usuario.id, usuario.seasons[0].id,  
-										(payment[usuario.id])? payment[usuario.id] : 
-															usuario.seasons[0].pivot.payment)">
+												      usuario.seasons[0].pivot.payment)">
 						<input type="button" class="btn btn btn-primary" value="Salvar"
 						ng-if="modoEdit[usuario.id]"		
 						ng-click="salvarPagamento(usuario.id, usuario.seasons[0].id,  
 										(payment[usuario.id])? payment[usuario.id] : 
-															usuario.seasons[0].pivot.payment)">															
+															usuario.seasons[0].pivot.payment,
+															usuario.seasons[0].pivot.date_payment)">		
 					</td>
 				</tr>				
 			</table>
