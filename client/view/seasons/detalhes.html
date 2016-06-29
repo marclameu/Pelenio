@@ -19,6 +19,13 @@
 <p>
 	<div ng-switch="selecao">
 		<div id="partidas" ng-switch-when="partidas">
+					<p>
+						<div ng-show="menssagem">
+						<div class="alert alert-success" role="alert">
+				  			<strong> {{menssagem}} </strong>
+						</div>
+						</div>
+					</p>
 					<div ng-show="novaPartidaHabilitada">
 					<h4>Nova partida</h4>
 						<form class="form-inline" name="formMatch">
@@ -49,16 +56,16 @@
 								<td>{{match.value | currency}}</td>
 								<td>{{match.income  | currency}}</td>
 								<td>{{match.date_match | date:'dd/MM/yyyy'}}</td>
-								<td><input type="button" clas="btn" value="Detalhar"></td>
+								<td><input type="button" class="btn btn-danger" value="Excluir" ng-click="delete(match.id)"/></td>
 							</tr>
 							<tr>
-								<td><strong>{{getTotalValue(temporada.matches)[0] | currency}}</strong></td>
-								<td><strong>{{getTotalValue(temporada.matches)[1] | currency}}</strong></td>
+								<td><strong>{{getTotalValue(matches)[0] | currency}}</strong></td>
+								<td><strong>{{getTotalValue(matches)[1] | currency}}</strong></td>
 							</tr>
 						</tbody>
 					</table>	
 					</div>
-					<div ng-show="temporada.matches.length === 0">
+					<div ng-show="matches.length === 0">
 					<div class="alert alert-success" role="alert">
 			  			<strong>:( </strong> Não há partidas cadastradas!
 					</div>
@@ -67,13 +74,6 @@
 
 					<button type="button" ng-click="habilitaAdicionarPartida()" class="btn btn-primary">Nova Partida
 					</button>
-					<p>
-						<div ng-show="menssagem">
-						<div class="alert alert-success" role="alert">
-				  			<strong> {{menssagem}} </strong>
-						</div>
-						</div>
-					</p>
 		</div>
 
 		<div id="usuarios" ng-switch-when="usuarios">

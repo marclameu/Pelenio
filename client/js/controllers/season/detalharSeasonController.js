@@ -1,5 +1,6 @@
-angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, userService, matchService, temporada){
-	$scope.temporada 			= temporada.data[0];		
+angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, userService, matchService, temporada, ngDialog){
+	$scope.temporada 			= temporada.data[0];	
+	$scope.partidas	            = [];
 	$scope.selecao 				= 'usuarios';
 	$scope.canShowEmail 		= true;
 	$scope.editandoPagamento	= [];
@@ -33,9 +34,8 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 			incomes += parseInt(m.income);
 		});
 		result.push(values);
-		result.push(incomes);
+		result.push(incomes);		
 
-		//console.log(result);
 		return result;
 	}
 
@@ -55,6 +55,7 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 				console.log(response2[0]);
 				delete $scope.partida;
 				$scope.novaPartidaHabilitada = false;
+				carregarPartidas($scope.temporada.id);
 				$scope.menssagem = 'Partida criada com sucesso!';
 			});
 		});
@@ -73,12 +74,12 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	}
 
 	var carregarPartidas = function(partidaId){
+		$scope.menssagem = '';
 		matchService.getMatchsBySeasonId($scope.temporada.id).success(function(response){
-			$scope.matches = response;
-			//console.log(response);
+			$scope.matches = response;			
 		}).error(function(response){
 			console.log('Erro encontrado => ' + response);			
-		});
+		});		
 	}
 
 	$scope.formateDateFromServer = function(strDate, separator){
@@ -154,6 +155,21 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		}
 		$scope.modoEdit[idUsuario] = false;	
 	}
+
+
+	$scope.delete = function (id) {	
+		message = 'Deseja excluir o registro?';		
+     	ngDialog.openConfirm({         				
+        			template: 'view/utils/popup.html',         				
+        			className: 'ngdialog-theme-default',
+        			data: message
+        		}).then(function(conf){
+        			matchService.deleteMatch(id).success(function(response){
+        				carregarPartidas($scope.temporada.id);
+        				$scope.menssagem = 'Partida excluída com sucesso!';
+        			})		
+        		});        
+    };
 
 	carregarUsuarios($scope.temporada.id);		
 });

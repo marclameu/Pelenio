@@ -3,7 +3,12 @@ angular.module('pelenio').service('matchService', function($http, config){
 		return $http.get(config.baseUrlApi + '/match/getMatchBySeasonId/' + seasonId);
 	};
 
+	_deleteMatch = function(id){
+		return $http.delete(config.baseUrlApi + '/match/'+id)
+	}
+
 	return{
-		getMatchsBySeasonId: _getMatchsBySeasonId
+		getMatchsBySeasonId: 	_getMatchsBySeasonId,
+		deleteMatch: 			_deleteMatch
 	}
 });

@@ -53,6 +53,8 @@ class MatchController extends Controller
 
     public function destroy($id)
     {
-        //
+        $match = Match::find($id);
+        $match->delete();
+        return response()->json(["Mensagem" => "Partida excluida com sucesso!"]);
     }
 }

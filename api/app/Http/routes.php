@@ -26,6 +26,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
     Route::post('season/adicionarPartida', 'SeasonController@adicionarPartida');
 
     Route::get('match/getMatchBySeasonId/{id}', 'MatchController@getMatchBySeasonId');
+    Route::delete('match/{id}', 'MatchController@destroy');
 });
 
 Route::get('/', function () {
