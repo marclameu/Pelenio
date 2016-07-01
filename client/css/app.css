@@ -3,6 +3,26 @@
 	margin: auto; 
 	padding: 10px;
 }
+
+.navbar-custom {
+	height: 71px;
+    background: #f1f1f1;
+    border-bottom: 1px solid black;
+    
+}
+
+.content
+{
+    padding: 0 7%;
+}
+
+.header .menu
+{
+    margin: 17px 0 0;
+    float: right;
+    padding: 0 3%;
+}
+
 input[type="text"].inputData{
 	max-width:100px;
 }

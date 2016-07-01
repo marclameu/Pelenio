@@ -1,5 +1,9 @@
-angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, userService, matchService, temporada, ngDialog){
-	$scope.temporada 			= temporada.data[0];	
+angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, userService, 
+																		  matchService, ngDialog, ngToast,
+																		  $timeout, $uibModal, $log, $routeParams){
+	//$scope.temporada 			= temporada.data[0];	
+	
+	$scope.temporada 			= [];
 	$scope.partidas	            = [];
 	$scope.selecao 				= 'usuarios';
 	$scope.canShowEmail 		= true;
@@ -9,6 +13,14 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	$scope.modoEdit 			= [];
 	oldPaymentValues		 	= [];
 	oldDatePaymentValues	 	= [];
+
+
+	var getTemporada = function(){
+		seasonService.getSeason($routeParams.id).success(function(response){
+			$scope.temporada = response[0];			
+		}).error(function(response){			
+		});
+	}	
 
 
 	$scope.showEmail = function(){
@@ -29,12 +41,14 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		var values = 0;
 		var incomes = 0;
 		var result = [];
-		matches.forEach(function(m){
-			values += parseInt(m.value);	
-			incomes += parseInt(m.income);
-		});
-		result.push(values);
-		result.push(incomes);		
+		if(matches){
+			matches.forEach(function(m){
+				values += parseInt(m.value);	
+				incomes += parseInt(m.income);
+			});
+			result.push(values);
+			result.push(incomes);	
+		}	
 
 		return result;
 	}
@@ -57,6 +71,9 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 				$scope.novaPartidaHabilitada = false;
 				carregarPartidas($scope.temporada.id);
 				$scope.menssagem = 'Partida criada com sucesso!';
+				$timeout(function(){
+        					$scope.menssagem = '';
+        				}, 5000); 
 			});
 		});
 	}
@@ -112,6 +129,7 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	}
 
 	var carregarUsuarios = function(partidaId){
+		getTemporada();
 		userService.getUsersBySeasonId(partidaId).success(function(response){
 			$scope.usuarios = response;
 			carregaInfoPagamentos($scope.usuarios);
@@ -148,7 +166,7 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 			
 
 			userService.updateOrCreatePayment(idUsuario, params).success(function(response){
-		
+				ngToast.create('Informações de pagamento salvas com sucesso!');		
 			}).error(function(response){
 				console.log('Não foi possível cadastrar o pagamento!');
 			});
@@ -167,9 +185,47 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
         			matchService.deleteMatch(id).success(function(response){
         				carregarPartidas($scope.temporada.id);
         				$scope.menssagem = 'Partida excluída com sucesso!';
+        				$timeout(function(){
+        					$scope.menssagem = '';
+        				}, 5000);        				
         			})		
         		});        
     };
 
-	carregarUsuarios($scope.temporada.id);		
+    $scope.valorTotalUsuarios = function(usuarios){
+    	valor = 0;
+    	usuarios.forEach(function(usuario){
+    		if(!isNaN(parseInt($scope.payment[usuario.id])))
+    			valor += parseInt($scope.payment[usuario.id]);    		
+    	});
+
+    	return valor;
+    }
+
+    $scope.resumoFinanceiro = function(){   
+    	
+	    modalInstance = $uibModal.open({		      
+			      templateUrl: 'resumoFinanceiro.html',
+			      size: 'lg',
+			      controller: 'resumoFinanceiroController',		      
+			      resolve: {
+			      	temporada: $scope.temporada,
+			      	valorvalorTotalUsuarios: $scope.valorTotalUsuarios($scope.usuarios),
+			      	nome: function(){
+			      		return "Marcelino Lameu da Silva";
+			      	}
+			      }
+			      
+	    	});
+
+	    	modalInstance.result.then(function () {      			
+		    }, function () {
+		      $log.info('Modal dismissed at: ' + new Date());
+		    });	  
+	    
+    }
+
+    
+
+	carregarUsuarios($routeParams.id);		
 });

@@ -1,5 +1,5 @@
 <div class="container">	
-<h3><center><strong>{{temporada.description}}</strong></center></h3>
+<h3><center><strong><a href="" ng-click="resumoFinanceiro()">{{temporada.description}}</a></strong></center></h3>
 	<div class="row">
 		<div class="col-md-4">
 			<h4>
@@ -17,6 +17,34 @@
 		</div>
 	</div>
 <p>
+
+	<div ng-controller="detalharSeasonController">
+		<script type="text/ng-template" id="resumoFinanceiro.html"> 
+			<div  close="cancel()" class="panel panel-primary">  		 
+				<div class="panel-heading">
+		    	<h3 class="panel-title">Resumo financeiro</h3>
+		  		</div>
+		  		<div class="panel-body">
+		    		<table class="table">
+		            	Nome: {{nome}}<br/>
+		            	Temporada: {{temporada.description}}
+		    				<thead>
+		    			    <th>Valor Total mensalistas	</th>
+		    				<th>Valor Total diaristas	</th>
+		    				<th>Total					</th>
+		    				</thead>
+							<tr>
+								<td>{{valorvalorTotalUsuarios | currency}}</td>
+								<td>R$200,00</td>
+								<td>R$400,00</td>
+							</tr> 
+		    		</table>
+		  		</div>  	
+			</div>
+		</script>
+	</div>
+	
+
 	<div ng-switch="selecao">
 		<div id="partidas" ng-switch-when="partidas">
 					<p>
@@ -78,6 +106,7 @@
 
 		<div id="usuarios" ng-switch-when="usuarios">
 			<input type='text' placeholder='Pesquisar' ng-model='filterUser' class='form-controll' />
+			<toast></toast>
 			<table class="table striped">
 				<thead>
 					<th>Nome</th>
