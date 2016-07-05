@@ -30,8 +30,14 @@ class AuthenticateController extends Controller
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['result' => 'Email ou senha incorretos!'], 500);
         }
+
+        $user = JWTAuth::toUser($token);
+        return response()->json(array('Authorization' => 'Bearer '.$token, 'user'=>$user));
+        /*
             return response()
-                ->json(['result' => 'Usuário logado com sucesso!'], 200, ['Authorization' => 'Bearer '.$token]);         
+                ->json(['result' => 'Usuário logado com sucesso!'], 200, 
+                    ['Authorization' => 'Bearer '.$token]);         
+        */                    
     }   
 
     

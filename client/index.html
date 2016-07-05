@@ -1,119 +1,397 @@
+<!DOCTYPE html>
 <html ng-app="pelenio">
-<meta charset="UTF-8">
+
 <head>
-	<title></title>	
-	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/app.css">	
-	<link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog.css">	
-	<link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog-theme-default.min.css">	
 
-	<link rel="stylesheet" type="text/css" href="bower_components/ngToast/dist/ngToast.min.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Pelênio</title>
+
+    <title></title> 
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <!-- <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet"> -->
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="css/app.css">  
+
+    <link rel="stylesheet" type="text/css" href="bower_components/ngToast/dist/ngToast.min.css"
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
+
 <body>
-<div class="menu">
-	<nav class="navbar navbar-default navbar-custom" role="navigation">
-	  <!-- Brand and toggle get grouped for better mobile display -->
-	  <div class="navbar-header menu">
-	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	      <span class="sr-only">Toggle navigation</span>
-	      <span class="icon-bar"></span>
-	      <span class="icon-bar"></span>
-	      <span class="icon-bar"></span>
-	    </button>
-	    <a class="navbar-brand" href="">Pelênio</a>
-	  </div>
 
-	  <!-- Collect the nav links, forms, and other content for toggling -->
-	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	    <ul class="nav navbar-nav">
-	      <li><a href="#/usuario/listar">Usuários</a></li>
-	      <li><a href="#/temporada/listar">Temporadas</a></li>
-	      <li class="dropdown">
-	        <a href="" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
-	        <ul class="dropdown-menu">
-	          <li><a href="#/temporada/novo">Nova temporada</a></li>	          
-	          <li><a href="#">Something else here</a></li>
-	          <li class="divider"></li>
-	          <li><a href="#">Separated link</a></li>
-	          <li class="divider"></li>
-	          <li><a href="#">One more separated link</a></li>
-	        </ul>
-	      </li>
-	    </ul>
-	    
-	    <ul class="nav navbar-nav navbar-right">
-	      <li><a href="#">Link</a></li>
-	      <li class="dropdown">
-	        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-	        <ul class="dropdown-menu">
-	          <li><a href="#">Logoff</a></li>
-	          <li><a href="#">Another action</a></li>
-	          <li><a href="#">Something else here</a></li>
-	          <li class="divider"></li>
-	          <li><a href="#">Separated link</a></li>
-	        </ul>
-	      </li>
-	    </ul>
-	  </div><!-- /.navbar-collapse -->
-	</nav>
-</div>
+    <div id="wrapper">
+        <div ng-if="loading" class="inner">
+            <img src="img/spinner.gif" style="width: 60px; height: 60px;"/>
+        </div>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Pelênio</a>
+            </div>
+            <!-- /.navbar-header -->
 
-	<div class="jumbotron	">
-		<div ng-view>
-		</div>	
-	</div>
-	
-	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
-	<script type="text/javascript" src="lib/angular/angular-messages.js"></script>	
-	<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>	
-	<script type="text/javascript" src="lib/dist/mask.min.js"></script>
-	<script type="text/javascript" src="lib/angular/ngStorage.min.js"></script>	
-	<script type="text/javascript" src="lib/angular/angular-locale_pt-br.js"></script>	
-	<script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>		
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 1</strong>
+                                        <span class="pull-right text-muted">40% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 2</strong>
+                                        <span class="pull-right text-muted">20% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            <span class="sr-only">20% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 3</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (warning)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 4</strong>
+                                        <span class="pull-right text-muted">80% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                            <span class="sr-only">80% Complete (danger)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Tasks</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#/usuario/detalhes/{{usuarioLogado.id}}"><i class="fa fa-user fa-fw"></i> Minha conta</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurar</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li ng-if="usuarioLogado" ng-controller="authenticationController">                            
+                            <a href="" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                        <li ng-if="!usuarioLogado">                            
+                            <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Login</a>
+                        </li>                        
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
 
-	<script type="text/javascript" src="lib/bootstrap/js/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+            <div ng-show="usuarioLogado"  class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="#/usuario/listar"><i class=""></i>Home</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="glyphicon glyphicon-wrench"></i> Gerenciar<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#/usuario/listar"><i class="glyphicon glyphicon-user"></i> Usuários</a>
+                                </li>
+                                <li>                                    
+                                    <a href="#/temporada/listar"><i class="glyphicon glyphicon-superscript"></i> Temporadas</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#/usuario/detalhes/{{usuarioLogado.id}}"><i class="fa fa-user fa-fw"></i> {{usuarioLogado.name}}</a>
+                        </li>
 
-	<script type="text/javascript" src="js/app.js"></script>	
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
 
-	<script type="text/javascript" src="js/value/configValue.js"></script>	
+        <!-- Page Content -->
+        <toast></toast>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="" ng-view>                            
+                        </div>                         
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
 
-	<script type="text/javascript" src="js/services/userService.js"></script>	
-	<script type="text/javascript" src="js/services/seasonService.js"></script>	
-	<script type="text/javascript" src="js/services/matchService.js"></script>	
+    </div>
+    <!-- /#wrapper -->
 
-	<script type="text/javascript" src="js/directives/formattersDirective.js"></script>	
+    <script type="text/javascript" src="lib/angular/angular.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-messages.js"></script>  
+    <script type="text/javascript" src="lib/angular/angular-route.min.js"></script> 
+    <script type="text/javascript" src="lib/dist/mask.min.js"></script>
+    <script type="text/javascript" src="lib/angular/ngStorage.min.js"></script> 
+    <script type="text/javascript" src="lib/angular/angular-locale_pt-br.js"></script>  
+    <script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>       
 
-	<script type="text/javascript" src="js/controllers/user/userController.js"></script>
-	<script type="text/javascript" src="js/controllers/user/newUserController.js"></script>
-	<script type="text/javascript" src="js/controllers/user/detalharUserController.js"></script>
-	<script type="text/javascript" src="js/controllers/season/seasonController.js"></script>	
-	<script type="text/javascript" src="js/controllers/season/newSeasonController.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="js/controllers/season/resumoFinanceiroController.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>    
 
-	<script type="text/javascript" src="js/controllers/season/detalharSeasonController.js"></script>
+    <script type="text/javascript" src="js/value/configValue.js"></script>  
+
+    <script type="text/javascript" src="js/services/userService.js"></script>   
+    <script type="text/javascript" src="js/services/seasonService.js"></script> 
+    <script type="text/javascript" src="js/services/matchService.js"></script>  
+    <script type="text/javascript" src="js/services/authenticationService.js"></script>  
+
+
+
+    <script type="text/javascript" src="js/directives/formattersDirective.js"></script> 
+
+    <script type="text/javascript" src="js/controllers/authentication/authenticationController.js"></script>
+    <script type="text/javascript" src="js/controllers/user/userController.js"></script>
+    <script type="text/javascript" src="js/controllers/user/newUserController.js"></script>
+    <script type="text/javascript" src="js/controllers/user/detalharUserController.js"></script>
+    <script type="text/javascript" src="js/controllers/season/seasonController.js"></script>    
+    <script type="text/javascript" src="js/controllers/season/newSeasonController.js"></script>
+
+    <script type="text/javascript" src="js/controllers/season/resumoFinanceiroController.js"></script>
+
+    <script type="text/javascript" src="js/controllers/season/detalharSeasonController.js"></script>
 
 
 
 
-	<script type="text/javascript" src="js/interceptors/autenticationInterceptor.js"></script>
+    <script type="text/javascript" src="js/interceptors/loadingInterceptor.js"></script>
+    <script type="text/javascript" src="js/interceptors/autenticationInterceptor.js"></script>
 
-	<script type="text/javascript" src="js/config/routeConfig.js"></script>
-	<script type="text/javascript" src="js/config/interceptorsConfig.js"></script>
+    <script type="text/javascript" src="js/config/routeConfig.js"></script>
+    <script type="text/javascript" src="js/config/interceptorsConfig.js"></script>
 
-	<script type="text/javascript" src="js/directives/uiAcordion.js"></script>
 
-	<script type="text/javascript" src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular-confirm-modal/angular-confirm.js"></script>	
-	<script type="text/javascript" src="bower_components/ng-dialog/js/ngDialog.js"></script>	
-	<script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-	<script type="text/javascript" src="bower_components/ngToast/dist/ngToast.min.js"></script>
+    <script type="text/javascript" src="js/directives/uiAcordion.js"></script>
 
-	<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-confirm-modal/angular-confirm.js"></script>    
+    <script type="text/javascript" src="bower_components/ng-dialog/js/ngDialog.js"></script>    
+    <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="bower_components/ngToast/dist/ngToast.min.js"></script>
 
-	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
-	
+    <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+
+    <script type="text/javascript" src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <script src="js/dist/sb-admin-2.js"></script>
 
 </body>
+
 </html>
