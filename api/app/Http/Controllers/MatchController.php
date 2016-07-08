@@ -10,8 +10,10 @@ use App\Match;
 
 class MatchController extends Controller
 {
-    public function __construct(){
-        $this->_match = new Match();
+    protected $_match;
+
+    public function __construct(Match $match){
+        $this->_match = $match;
     }
 
     public function index()

@@ -4,7 +4,7 @@ angular.module('pelenio').factory('autenticationInterceptor', function($q, $root
 		request: function(config){
 			config.headers = config.headers || {};            
             if ($localStorage.token) {
-                console.log('Enviando token já obtido em cada requisição');
+                //console.log('Enviando token já obtido em cada requisição');
                 config.headers['Authorization'] = $localStorage.token;
                 $rootScope.usuarioLogado = $localStorage.usuarioLogado;
             }

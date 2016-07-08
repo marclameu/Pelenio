@@ -3,8 +3,8 @@ angular.module('pelenio').controller('authenticationController', function($scope
 		authenticationService.login(user).success(function(response){
 			$localStorage.token = response['Authorization'];
 			$localStorage.usuarioLogado = response['user'];			
-			ngToast.create('Seja bem vindo ' + $localStorage.user.name);
-			$location.path('usuario/listar');
+			ngToast.create('Seja bem vindo ' + $localStorage.usuarioLogado.name);
+			$location.path('home');
 		}).error(function(response){
 			console.log('Não foi possível efetuar o login!');
 		});

@@ -14,12 +14,13 @@ use App\Season;
 
 class UserController extends Controller
 { 
+    protected $_user;
 
-    public function __construct()
+    public function __construct(User $user)
     {        
         //$this->middleware('jwt-auth', ['except' => 'index']);        
          //$this->middleware('jwt-auth');  
-         $this->_user = new User();      
+         $this->_user = $user;     
     }
 
     public function index()

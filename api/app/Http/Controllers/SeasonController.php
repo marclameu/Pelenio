@@ -11,8 +11,11 @@ use App\Match;
 
 class SeasonController extends Controller
 {
-    public function __construct(){
-        $this->_season = new Season();
+    protected $_season;
+    
+    public function __construct(Season $season){
+        //$this->_season = new Season();
+        $this->_season = $season;
         $this->middleware('jwt-auth', ['only' => 'store']);
     }
 
