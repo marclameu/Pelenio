@@ -5,8 +5,8 @@ angular.module("pelenio").config(function($routeProvider){
 		controller:  "authenticationController"	
 	})
 	.when("/", {
-		templateUrl: "view/authentication/login.html",
-		controller:  "authenticationController"	
+		templateUrl: "view/home/home.html",
+		controller:  "homeController"
 	})	
 	.when("/home", {
 		templateUrl: "view/home/home.html",

@@ -35,8 +35,8 @@
 		    				</thead>
 							<tr>
 								<td>{{valorvalorTotalUsuarios | currency}}</td>
-								<td>R$200,00</td>
-								<td>R$400,00</td>
+								<td>{{valorTotalDiaristas | currency}}</td>
+								<td>{{total | currency}}</td>
 							</tr> 
 		    		</table>
 		  		</div>  	
@@ -72,8 +72,8 @@
 						  <button type="submit" ng-click="adicionarPartida(partida, temporada.id)" ng-enabled="formMatch.$valid" class="btn btn-primary">Salvar</button>
 						</form>		
 					</div>
-					<div ng-show="temporada.matches.length > 0">		
-					<table class="table table-striped">
+					<div class="table-responsive"  ng-show="temporada.matches.length > 0">								
+					<table class="table">
 						<thead>
 							<th>Valor</th>
 							<th>Arrecadado</th>
@@ -81,9 +81,9 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="match in matches">
-								<td>{{match.value | currency}}</td>
-								<td>{{match.income  | currency}}</td>
-								<td>{{match.date_match | date:'dd/MM/yyyy'}}</td>
+								<td class="col-md-2">{{match.value | currency}}</td>
+								<td class="col-md-2">{{match.income  | currency}}</td>
+								<td class="col-md-2">{{match.date_match | date:'dd/MM/yyyy'}}</td>
 								<td><input type="button" class="btn btn-danger" value="Excluir" ng-click="delete(match.id)"/></td>
 							</tr>
 							<tr>
@@ -114,11 +114,11 @@
 					<th>Data</th>
 				</thead>
 				<tr ng-repeat='usuario in usuarios | filter: filterUser'>
-					<td>{{usuario.name}}
+					<td class="col-md-2">{{usuario.name}}
 					</td>
-					<td ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail">{{usuario.	email}}
+					<td class="col-md-2" ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail">{{usuario.email}}
 					</td>
-					<td>
+					<td class="col-md-2">
 						<span  ng-show="modoEdit[usuario.id]">
 							<input type="text" class="currency" autofocus ng-model="payment[usuario.id]" ui-money-mask="2" />
 						</span>
@@ -128,7 +128,7 @@
 
 					</td>
 
-					<td>
+					<td class="col-md-2">
 						<span  ng-show="modoEdit[usuario.id]">
 							<input type="text" class="inputData" ui-mask="99/99/9999" autofocus ng-model="datePayment[usuario.id]" />
 						</span>						
@@ -136,7 +136,7 @@
 							{{(formateDateToView(datePayment[usuario.id], "/"))}}		
 						</span>							
 					</td>
-					<td >
+					<td  >
 						<input type="button" class="btn btn-success" value="Editar"
 						ng-if="!modoEdit[usuario.id]"		
 						ng-click="modoEdicaoPagamento(usuario.id, usuario.seasons[0].id,  

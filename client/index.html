@@ -262,7 +262,7 @@
                             <a href="" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                         <li ng-if="!usuarioLogado">                            
-                            <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Login</a>
+                            <a href="#/login"><i class="fa fa-sign-out fa-fw"></i> Login</a>
                         </li>                        
                     </ul>
                     <!-- /.dropdown-user -->
@@ -278,6 +278,9 @@
 
         <!-- Page Content -->
         <toast></toast>
+        <div ng-if="mensagem" class="alert alert-danger" role="alert">
+            {{mensagem}}
+        </div>
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">

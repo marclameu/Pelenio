@@ -91,9 +91,10 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	}
 
 	var carregarPartidas = function(partidaId){
-		$scope.menssagem = '';
+		$scope.menssagem = '';		
 		matchService.getMatchsBySeasonId($scope.temporada.id).success(function(response){
-			$scope.matches = response;			
+			$scope.matches = response;	
+			return response;		
 		}).error(function(response){
 			console.log('Erro encontrado => ' + response);			
 		});		
@@ -176,7 +177,17 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 
 
 	$scope.delete = function (id) {	
-		message = 'Deseja excluir o registro?';		
+		if(confirm('Deseja excluir a partida?')){
+			matchService.deleteMatch(id).success(function(response){
+				carregarPartidas($scope.temporada.id);
+				$scope.menssagem = 'Partida excluída com sucesso!';
+				$timeout(function(){
+					$scope.menssagem = '';
+				}, 5000);        				
+			})		
+		}
+		//message = 'Deseja excluir o registro?';	
+		/*	
      	ngDialog.openConfirm({         				
         			template: 'view/utils/popup.html',         				
         			className: 'ngdialog-theme-default',
@@ -189,7 +200,8 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
         					$scope.menssagem = '';
         				}, 5000);        				
         			})		
-        		});        
+        		});      
+        */  
     };
 
     $scope.valorTotalUsuarios = function(usuarios){
@@ -204,28 +216,29 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 
     $scope.resumoFinanceiro = function(){   
     	
-	    modalInstance = $uibModal.open({		      
+    	console.log(carregarPartidas($scope.temporada.id));
+    	matchService.getMatchsBySeasonId($scope.temporada.id).success(function(response){
+    		modalInstance = $uibModal.open({		      
 			      templateUrl: 'resumoFinanceiro.html',
 			      size: 'lg',
 			      controller: 'resumoFinanceiroController',		      
 			      resolve: {
 			      	temporada: $scope.temporada,
 			      	valorvalorTotalUsuarios: $scope.valorTotalUsuarios($scope.usuarios),
+			      	valorTotalDiaristas: $scope.getTotalValue(response)[1] ,
 			      	nome: function(){
 			      		return "Marcelino Lameu da Silva";
 			      	}
-			      }
-			      
+			      }			      
 	    	});
-
 	    	modalInstance.result.then(function () {      			
 		    }, function () {
-		      $log.info('Modal dismissed at: ' + new Date());
-		    });	  
-	    
-    }
+		      //$log.info('Modal dismissed at: ' + new Date());
+		    });
+    	}).error(function(response){
+    		console.log('Erro ao carregar valores - ' + response);
+    	});
+    }   
 
-    
-
-	carregarUsuarios($routeParams.id);		
+	carregarUsuarios($routeParams.id);	
 });

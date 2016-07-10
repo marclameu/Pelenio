@@ -4,9 +4,11 @@ angular.module('pelenio').controller('authenticationController', function($scope
 			$localStorage.token = response['Authorization'];
 			$localStorage.usuarioLogado = response['user'];			
 			ngToast.create('Seja bem vindo ' + $localStorage.usuarioLogado.name);
+			$rootScope.mensagem = '';
 			$location.path('home');
 		}).error(function(response){
-			console.log('Não foi possível efetuar o login!');
+			$rootScope.mensagem = 'Não foi possível efetuar o login! - ' + response['result'];
+			console.log(response);
 		});
 
 	};
