@@ -54,15 +54,15 @@
 						</div>
 					</p>
 					<div ng-show="novaPartidaHabilitada">
-					<h4>Nova partida</h4>
-						<form class="form-inline" name="formMatch">
+					<h4>Nova partida</h4>						
+						<form class="form-inline"  name="form.formMatch">
 						  <div class="form-group">
 						    <label for="inputValor">Valor</label>
-						    <input type="text" class="currency" ng-model="partida.value" id="inputValor" ui-money-mask="2">
+						    <input type="text" class="currency" ng-model="partida.value" id="inputValor" ui-money-mask="2" ng-required="true" >
 						  </div>
 						  <div class="form-group">
 						    <label for="inputArrecadado">Arrecadado</label>
-						    <input type="text" class="currency" ng-model="partida.income" id="inputArrecadado" ui-money-mask="2">
+						    <input type="text" class="currency" ng-model="partida.income" id="inputArrecadado" ui-money-mask="2" ng-required="true" >
 						  </div>
 						  <div class="form-group">
 						    <label for="data">Data</label>
@@ -70,11 +70,14 @@
 						  </div>
 						  <label for="tipoPagamentoMatch">Tipo</label>
 						  <div class="form-group">												
-								<select id="tipoPagamentoMatch" ng-model="partida.payment_type" ng-options="type as type.name  for type in paymentTypes">
+								<select id="tipoPagamentoMatch" ng-model="partida.payment_type" ng-options="type as type.name  for type in paymentTypes" ng-required="true">				
 								</select>
-						  </div>			  
-						  <button type="submit" ng-click="adicionarPartida(partida, temporada.id)" ng-enabled="formMatch.$valid" class="btn btn-primary">Salvar</button>
-						</form>		
+						  </div>			  						  	
+							  <div class="form-group">
+							  	<button type="submit" ng-click="adicionarPartida(partida, temporada.id)" ng-disabled="form.formMatch.$invalid" class="btn btn-primary">Salvar</button>	
+							  </div>			
+						  </form>		
+						  					
 					</div>
 					<div class="table-responsive"  ng-show="temporada.matches.length > 0">								
 					<table class="table">

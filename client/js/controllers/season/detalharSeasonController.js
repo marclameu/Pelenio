@@ -16,6 +16,8 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	oldDatePaymentValues	 	= [];
 	oldDatePaymentTypeValues 	= [];
 
+	$scope.form = {};
+
 	$scope.paymentTypes 		= [
 		{type: "0", name: "Dinheiro"},
 		{type: "1", name: "Cartão"}
@@ -41,6 +43,7 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 
 	$scope.habilitaAdicionarPartida = function(){
 		$scope.novaPartidaHabilitada = !$scope.novaPartidaHabilitada;
+		//partida.payment_type = 	$scope.paymentTypes[0];
 	}
 
 	$scope.getTotalValue = function(matches){
@@ -67,21 +70,28 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 
 		var partidaBackend 			= angular.copy(partida);
 		partidaBackend.date_match 	= ano + '-' + mes + '-' + dia;
-		partidaBackend.payment_type	= partida.payment_type.type;		
+		partidaBackend.payment_type	= partida.payment_type.type;
+		
 		
 		seasonService.criarPartida(partidaBackend).success(function(response){			
 			seasonService.getSeason(seasonId).success(function(response2){
-				$scope.temporada = response2[0];
-				console.log(response2[0]);
-				delete $scope.partida;
+				$scope.temporada = response2[0];									
+				
 				$scope.novaPartidaHabilitada = false;
 				carregarPartidas($scope.temporada.id);
-				$scope.menssagem = 'Partida criada com sucesso!';
+				$scope.menssagem = 'Partida criada com sucesso!';				
 				$timeout(function(){
         					$scope.menssagem = '';
         				}, 5000); 
-			});
+			});			
 		});
+		
+		partida.value = null;
+		partida.income = null;
+		partida.date_match = null;
+		partida.payment_type = null;	
+
+		$scope.form.formMatch.$setPristine();
 	}
 
 	$scope.setSelecao = function(selecionado){
