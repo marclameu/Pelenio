@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Match extends Model
 {
     protected $fillable = [
-        'date_match', 'income', 'value', 'season_id'
+        'date_match', 'income', 'value', 'season_id', 'payment_type'
     ];
 
     public function season(){

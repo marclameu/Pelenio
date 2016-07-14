@@ -62,10 +62,11 @@ class SeasonController extends Controller
     public function adicionarPartida(Request $request){
         try {            
             $match = new Match();
-            $match->date_match  = $request->input('date_match') ;
-            $match->value       = $request->input('value') ;
-            $match->income      = $request->input('income') ;
-            $match->season_id   = $request->input('season_id') ;
+            $match->date_match      = $request->input('date_match') ;
+            $match->value           = $request->input('value') ;
+            $match->income          = $request->input('income') ;
+            $match->season_id       = $request->input('season_id') ;
+            $match->payment_type    = $request->input('payment_type');
             $match->save();
             return response()->json(['Mensagem' => 'Registro cadastrado com sucesso!'], 202); 
             //return response()->json($match);

@@ -63,11 +63,11 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		partida.season_id = seasonId;			
 		var dia = partida.date_match.substring(0,2);
 		var mes = partida.date_match.substring(2,4);
-		var ano = partida.date_match.substring(4,8);				
-		
-		var partidaBackend = angular.copy(partida);
-		partidaBackend.date_match = ano + '-' + mes + '-' + dia;		
-		
+		var ano = partida.date_match.substring(4,8);
+
+		var partidaBackend 			= angular.copy(partida);
+		partidaBackend.date_match 	= ano + '-' + mes + '-' + dia;
+		partidaBackend.payment_type	= partida.payment_type.type;		
 		
 		seasonService.criarPartida(partidaBackend).success(function(response){			
 			seasonService.getSeason(seasonId).success(function(response2){
@@ -125,14 +125,19 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		return strDate;
 	}
 
-	var getTipoPagamento = function(tipo){
+	$scope.getTipoPagamento = function(tipo){
+		/*if(isNaN(tipo)){
+			return;
+		}	*/	
+		tipo = parseInt(tipo);	
+
 		switch(tipo){
 			case 0:
 				return 'Dinheiro';
 				break;
 			case 1:
 				return 'Cartão'
-				break;
+				break;			
 		}
 
 		return null;
@@ -156,7 +161,8 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 			if(usuario.seasons.length > 0){
 				$scope.payment[usuario.id] 				= usuario.seasons[0].pivot.payment;
 				$scope.datePayment[usuario.id]			= $scope.formateDateFromServer(usuario.seasons[0].pivot.date_payment, '/');								
-				$scope.payment_type[usuario.id]			= getTipoPagamento(parseInt(usuario.seasons[0].pivot.payment_type));
+				//$scope.payment_type[usuario.id]			= getTipoPagamento(parseInt(usuario.seasons[0].pivot.payment_type));
+				$scope.payment_type[usuario.id]			= $scope.getTipoPagamento(usuario.seasons[0].pivot.payment_type);
 				/*$scope.payment_type[usuario.id] 		= {type: usuario.seasons[0].pivot.payment_type, 
 														   name: getTipoPagamento(parseInt(usuario.seasons[0].pivot.payment_type))};*/
 

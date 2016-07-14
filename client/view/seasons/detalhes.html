@@ -58,15 +58,20 @@
 						<form class="form-inline" name="formMatch">
 						  <div class="form-group">
 						    <label for="inputValor">Valor</label>
-						    <input type="text" class="form-control" ng-model="partida.value" id="inputValor" ui-money-mask="2">
+						    <input type="text" class="currency" ng-model="partida.value" id="inputValor" ui-money-mask="2">
 						  </div>
 						  <div class="form-group">
 						    <label for="inputArrecadado">Arrecadado</label>
-						    <input type="text" class="form-control" ng-model="partida.income" id="inputArrecadado" ui-money-mask="2">
+						    <input type="text" class="currency" ng-model="partida.income" id="inputArrecadado" ui-money-mask="2">
 						  </div>
 						  <div class="form-group">
 						    <label for="data">Data</label>
 						    <input type="text" class="form-control inputData"  ng-required="true"  ng-model="partida.date_match" ui-mask="99/99/9999">
+						  </div>
+						  <label for="tipoPagamentoMatch">Tipo</label>
+						  <div class="form-group">												
+								<select id="tipoPagamentoMatch" ng-model="partida.payment_type" ng-options="type as type.name  for type in paymentTypes">
+								</select>
 						  </div>			  
 						  <button type="submit" ng-click="adicionarPartida(partida, temporada.id)" ng-enabled="formMatch.$valid" class="btn btn-primary">Salvar</button>
 						</form>		
@@ -77,13 +82,15 @@
 							<th>Valor</th>
 							<th>Arrecadado</th>
 							<th>Data</th>
+							<th>Tipo</th>
 						</thead>
 						<tbody>
 							<tr ng-repeat="match in matches">
 								<td class="col-md-2">{{match.value | currency}}</td>
 								<td class="col-md-2">{{match.income  | currency}}</td>
 								<td class="col-md-2">{{match.date_match | date:'dd/MM/yyyy'}}</td>
-								<td><input type="button" class="btn btn-danger" value="Excluir" ng-click="delete(match.id)"/></td>
+								<td class="col-md-2">{{getTipoPagamento(match.payment_type)}}</td>
+								<td class="col-md-2"><input type="button" class="btn btn-danger" value="Excluir" ng-click="delete(match.id)"/></td>
 							</tr>
 							<tr>
 								<td><strong>{{getTotalValue(matches)[0] | currency}}</strong></td>
