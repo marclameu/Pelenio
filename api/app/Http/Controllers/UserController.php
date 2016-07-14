@@ -40,7 +40,8 @@ class UserController extends Controller
             $season = Season::find($request->input('seasonId')); 
             $user->seasons()->save($season, [
                                                 'payment'      => $request->input('payment'),
-                                                'date_payment' => $request->input('datePayment')
+                                                'date_payment' => $request->input('datePayment'),
+                                                'payment_type' => $request->input('payment_type'),
                                              ]);           
 
             return response()->json(["Mensagem" => "Pagamento criado com sucesso!"]);
@@ -50,6 +51,7 @@ class UserController extends Controller
         $pivot                  =   $season->pivot;         
         $pivot->payment         =   $request->input('payment');
         $pivot->date_payment    =   $request->input('datePayment');
+        $pivot->payment_type    =   $request->input('payment_type');
         $pivot->update();        
 
         return response()->json(["Mensagem" => "Pagamento atualizado com sucesso!"]);       

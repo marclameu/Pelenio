@@ -25,7 +25,7 @@ class User extends Authenticatable
 
     public function seasons(){
         return $this->belongsToMany('App\Season')
-                    ->withPivot('payment', 'date_payment');
+                    ->withPivot('payment', 'date_payment', 'payment_type');
     }
 
 

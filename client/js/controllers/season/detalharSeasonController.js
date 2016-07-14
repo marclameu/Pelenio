@@ -9,11 +9,17 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	$scope.canShowEmail 		= true;
 	$scope.editandoPagamento	= [];
 	$scope.payment 				= [];
+	$scope.payment_type			= [];
 	$scope.datePayment			= [];
 	$scope.modoEdit 			= [];
 	oldPaymentValues		 	= [];
 	oldDatePaymentValues	 	= [];
+	oldDatePaymentTypeValues 	= [];
 
+	$scope.paymentTypes 		= [
+		{type: "0", name: "Dinheiro"},
+		{type: "1", name: "Cartão"}
+	];
 
 	var getTemporada = function(){
 		seasonService.getSeason($routeParams.id).success(function(response){
@@ -119,11 +125,41 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		return strDate;
 	}
 
+	var getTipoPagamento = function(tipo){
+		switch(tipo){
+			case 0:
+				return 'Dinheiro';
+				break;
+			case 1:
+				return 'Cartão'
+				break;
+		}
+
+		return null;
+	}
+
+	var getNumeroTipoPagamento = function(tipo){
+		switch(tipo){
+			case 'Dinheiro':
+				return 0;
+				break;
+			case 'Cartão':
+				return 1
+				break;
+		}
+
+		return null;
+	}	
+
 	var carregaInfoPagamentos = function(usuarios){		
 		usuarios.forEach(function(usuario){
 			if(usuario.seasons.length > 0){
-				$scope.payment[usuario.id] 		= usuario.seasons[0].pivot.payment;
-				$scope.datePayment[usuario.id]	= $scope.formateDateFromServer(usuario.seasons[0].pivot.date_payment, '/');								
+				$scope.payment[usuario.id] 				= usuario.seasons[0].pivot.payment;
+				$scope.datePayment[usuario.id]			= $scope.formateDateFromServer(usuario.seasons[0].pivot.date_payment, '/');								
+				$scope.payment_type[usuario.id]			= getTipoPagamento(parseInt(usuario.seasons[0].pivot.payment_type));
+				/*$scope.payment_type[usuario.id] 		= {type: usuario.seasons[0].pivot.payment_type, 
+														   name: getTipoPagamento(parseInt(usuario.seasons[0].pivot.payment_type))};*/
+
 			}
 			$scope.modoEdit[usuario.id] 	= false;			
 		});		
@@ -143,7 +179,10 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 	$scope.modoEdicaoPagamento = function(idUsuario, seasonId){
 		$scope.editandoPagamento[idUsuario] = !$scope.editandoPagamento[idUsuario];
 		oldPaymentValues[idUsuario] 		= $scope.payment[idUsuario];		
-		oldDatePaymentValues[idUsuario] 	= $scope.datePayment[idUsuario]
+		oldDatePaymentValues[idUsuario] 	= $scope.datePayment[idUsuario];
+		oldDatePaymentTypeValues[idUsuario] = $scope.payment_type[idUsuario];	
+		var index = ($scope.payment_type[idUsuario] == 'Dinheiro')?	0 : 1;
+		$scope.payment_type[idUsuario] 		= $scope.paymentTypes[index];
 		$scope.modoEdit[idUsuario] 			= true;				
 	}
 
@@ -152,6 +191,7 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		{
 			$scope.payment[idUsuario] 		= oldPaymentValues[idUsuario];			
 			$scope.datePayment[idUsuario]	= oldDatePaymentValues[idUsuario];
+			$scope.payment_type[idUsuario]	= oldDatePaymentTypeValues[idUsuario];
 		}
 		else{
 			params = {};				
@@ -163,14 +203,18 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 			mes = params.datePayment.substring(2,4);
 			ano = params.datePayment.substring(4,8);		
 			
-			params.datePayment = ano + '-' + mes + '-' + dia;
-			
+			params.datePayment = ano + '-' + mes + '-' + dia;				
 
+			params.payment_type = getNumeroTipoPagamento($scope.payment_type[idUsuario].name);
+			
+			console.log("id => " + idUsuario);
 			userService.updateOrCreatePayment(idUsuario, params).success(function(response){
-				ngToast.create('Informações de pagamento salvas com sucesso!');		
+				ngToast.create('Informações de pagamento salvas com sucesso!');	
+				$scope.payment_type[idUsuario] = $scope.payment_type[idUsuario].name;
 			}).error(function(response){
 				console.log('Não foi possível cadastrar o pagamento!');
 			});
+			
 		}
 		$scope.modoEdit[idUsuario] = false;	
 	}

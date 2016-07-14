@@ -8,7 +8,7 @@ class Season extends Model
 {
 	//number é o número da temporada.
     protected $fillable = [
-        'description', 'actual', 'value', 'number', 'start', 'end'
+        'description', 'actual', 'value', 'income', 'number', 'start', 'end'
     ];
 
     //functions
@@ -37,6 +37,12 @@ class Season extends Model
     }
 
     public function users(){
-    	return $this->belongsToMany('App\User')->withPivot('payment', 'date_payment');
+    	return $this->belongsToMany('App\User')->withPivot('payment', 'date_payment', 'payment_type');
+
+        /*
+            payment_type?
+            0 - Dinheiro
+            1 - Cartão
+        */
     }
 }

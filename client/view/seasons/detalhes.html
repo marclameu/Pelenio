@@ -44,7 +44,6 @@
 		</script>
 	</div>
 	
-
 	<div ng-switch="selecao">
 		<div id="partidas" ng-switch-when="partidas">
 					<p>
@@ -112,13 +111,14 @@
 					<th ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail"><a href="" ng-click="hideEmail()">Email</a></th>
 					<th>Pagamento</th>
 					<th>Data</th>
+					<th>Tipo</th>
 				</thead>
 				<tr ng-repeat='usuario in usuarios | filter: filterUser'>
 					<td class="col-md-2">{{usuario.name}}
 					</td>
 					<td class="col-md-2" ng-class="{'fade-out': !canShowEmail}" ng-show="canShowEmail">{{usuario.email}}
 					</td>
-					<td class="col-md-2">
+					<td class="col-md-1">
 						<span  ng-show="modoEdit[usuario.id]">
 							<input type="text" class="currency" autofocus ng-model="payment[usuario.id]" ui-money-mask="2" />
 						</span>
@@ -127,8 +127,7 @@
 						</span>
 
 					</td>
-
-					<td class="col-md-2">
+					<td class="col-md-1" >
 						<span  ng-show="modoEdit[usuario.id]">
 							<input type="text" class="inputData" ui-mask="99/99/9999" autofocus ng-model="datePayment[usuario.id]" />
 						</span>						
@@ -136,6 +135,14 @@
 							{{(formateDateToView(datePayment[usuario.id], "/"))}}		
 						</span>							
 					</td>
+					<td class="col-md-1" id="tipo">
+						<span  ng-show="modoEdit[usuario.id]">
+							<select ng-model="payment_type[usuario.id]" ng-options="type as type.name  for type in paymentTypes"></select>							
+						</span>	
+						<span ng-hide="modoEdit[usuario.id]" >
+							{{payment_type[usuario.id]}} 
+						</span>												
+					</td>	
 					<td  >
 						<input type="button" class="btn btn-success" value="Editar"
 						ng-if="!modoEdit[usuario.id]"		
@@ -147,12 +154,16 @@
 										(payment[usuario.id])? payment[usuario.id] : 
 															usuario.seasons[0].pivot.payment,
 															usuario.seasons[0].pivot.date_payment)">		
-					</td>
+					</td>					
 				</tr>				
 			</table>
 		</div>
 	</div>
 </p>
+
+<div ng-controller="fecharSeasonController">
+<button type="submit" ng-click="fecharSeason(temporada)" class="btn btn-primary">Fechar temporada</button>
+</div>
 
 </div>
 
