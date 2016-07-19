@@ -1,6 +1,7 @@
 angular.module('pelenio').controller('detalharSeasonController', function($scope, seasonService, userService, 
 																		  matchService, ngDialog, ngToast,
-																		  $timeout, $uibModal, $log, $routeParams){
+																		  $timeout, $uibModal, $log, $routeParams,
+																		  sharedPropertiesService){
 	//$scope.temporada 			= temporada.data[0];	
 	
 	$scope.temporada 			= [];
@@ -103,6 +104,9 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 			case 'usuarios' :
 				carregarUsuarios($scope.temporada.id);
 				break;
+			case 'pagamentos' :
+				sharedPropertiesService.setSeasonId($scope.temporada.id);
+				break;				
 		}
 	}
 

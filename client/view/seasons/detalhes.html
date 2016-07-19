@@ -1,20 +1,27 @@
 <div class="container">		
 <h3><center><strong><a href="" ng-click="resumoFinanceiro()">{{temporada.description}}</a></strong></center></h3>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<h4>
 			<span class="glyphicon glyphicon-user" aria-hidden="true">				
 				<a href="" ng-click="setSelecao('usuarios')">Usuários</a>
 			</span>
 			</h4>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<h4>
 			<span class="glyphicon glyphicon-rub" aria-hidden="true">
 				<a href="" ng-click="setSelecao('partidas')">Partidas</a>
 			</span>
-			</h4>
+			</h4>			
 		</div>
+		<div class="col-md-3">
+			<h4>
+			<span class="glyphicon glyphicon-usd" aria-hidden="true">
+				<a href="" ng-click="setSelecao('pagamentos')">Pagamentos</a>
+			</span>
+			</h4>			
+		</div>		
 	</div>
 <p>
 
@@ -167,6 +174,28 @@
 					</td>					
 				</tr>				
 			</table>
+		</div>
+
+		<div ng-controller= "pagamentoSeasonController" id="pagamentos" ng-switch-when="pagamentos">
+			<div ng-show="payments.length > 0">
+			<h3>Pagamentos efetuados</h3>
+				<table class="table table-responsive">
+					<thead>
+						<th>Pagamento</th>
+						<th>Valor</th>
+						<th>Data</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="payment in payments">
+							<td class="col-md-2">{{payment.description}}</td>
+							<td class="col-md-2">{{payment.value | currency}}</td>
+							<td class="col-md-2">{{payment.date_payment | date: 'dd/MM/yyyy'}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<input type="submit" class="btn btn-success" value="Novo pagamento"
+			ng-click="abrirNovoPagamentoForm()"/>
 		</div>
 	</div>
 </p>

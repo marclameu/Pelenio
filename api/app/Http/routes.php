@@ -27,6 +27,9 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
 
     Route::get('match/getMatchBySeasonId/{id}', 'MatchController@getMatchBySeasonId');
     Route::delete('match/{id}', 'MatchController@destroy');
+
+    Route::get('expense/getExpensesBySeasonId/{id}', 'ExpenseController@getExpensesBySeasonId');
+    Route::post('expense/salvarPagamento', 'ExpenseController@salvarPagamento');
 });
 
 Route::get('/', function () {
