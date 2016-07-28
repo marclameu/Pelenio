@@ -10,6 +10,15 @@ angular.module('pelenio').controller('pagamentoSeasonController', function($scop
 		});
 	}
 
+	$scope.totalExpenses = function(payments){
+		var total = 0;
+		payments.forEach(function(p){
+			total += parseFloat(p.value);
+		});
+
+		return total;
+	}
+
 	$scope.cancel = function () {
     	$uibModalInstance.dismiss('cancel');
   	};
@@ -29,6 +38,12 @@ angular.module('pelenio').controller('pagamentoSeasonController', function($scop
 	    }, function () {
 	    	console.log('cancelou...');
 	    });
+	}
+
+	$scope.delete = function(id){
+		if(confirm('Deseja excluir o pagamento?')){
+			ngToast.create('Pagamento excluído com sucesso!');
+		}
 	}
 
 	$scope.getExpensesBySeasonId(seasonId)

@@ -5,7 +5,7 @@
 			<th>Temporada</th>
 			<th>Valor Pago</th>		
 			<th>Valor Recebido</th>
-			<th>Situação</th>
+			<th>Atual</th>
 			<th>Início</th>
 			<th>Fim</th>
 			<th>Número</th>
@@ -14,11 +14,14 @@
 				<td><a href="#/temporada/detalhes/{{temporada.id}}">{{temporada.description}}</a></td>
 				<td>{{temporada.value | currency}}</td>	
 				<td>{{temporada.income | currency }}</td>
-				<td>{{temporada.actual == '1' ? 'Aberta' : 'Encerrada'}}</td>	
+				<td>{{temporada.actual == '1' ? 'X' : ''}}</td>	
 				<td>{{temporada.start | date:'dd/MM/yyyy'}} </td>			
 				<td>{{temporada.end | date:'dd/MM/yyyy'}} </td>							
 				<td>{{temporada.number}} </td>	
 			</tr>
 		</TBODY>
 	</table>
+	<div>		
+		<a href="#/temporada/novo" class="btn btn-success">Nova temporada</a>
+	</div>
 </div>

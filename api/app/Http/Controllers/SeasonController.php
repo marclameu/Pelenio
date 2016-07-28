@@ -75,18 +75,8 @@ class SeasonController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+    public function fechar($id)
+    {        
+       return response()->json($this->_season->fecharSeasonPorId($id));
     }
 }

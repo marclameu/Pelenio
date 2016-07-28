@@ -178,21 +178,25 @@
 
 		<div ng-controller= "pagamentoSeasonController" id="pagamentos" ng-switch-when="pagamentos">
 			<div ng-show="payments.length > 0">
-			<h3>Pagamentos efetuados</h3>
-				<table class="table table-responsive">
+			<h3>Pagamentos efetuados</h3>				
+				<table class="table striped">
 					<thead>
-						<th>Pagamento</th>
-						<th>Valor</th>
-						<th>Data</th>
-					</thead>
-					<tbody>
-						<tr ng-repeat="payment in payments">
-							<td class="col-md-2">{{payment.description}}</td>
-							<td class="col-md-2">{{payment.value | currency}}</td>
-							<td class="col-md-2">{{payment.date_payment | date: 'dd/MM/yyyy'}}</td>
-						</tr>
-					</tbody>
-				</table>
+						<th class="col-md-1">Pagamento</th>
+						<th class="col-md-1">Valor</th>
+						<th class="col-md-1">Data</th>
+						<th class="col-md-1"></th>
+					</thead>						
+					<tr ng-repeat="payment in payments">
+						<td class="col-md-1">{{payment.description}}</td>
+						<td class="col-md-1">{{payment.value | currency}}</td>
+						<td class="col-md-1">{{payment.date_payment | date: 'dd/MM/yyyy'}}</td>
+						<td class="col-md-1"><input type="button" class="btn btn-danger" value="Excluir" ng-click="delete(payment.id)"/></td>
+					</tr>	
+					<tr>
+						<td><b>Total</b></td>
+						<td><b>{{totalExpenses(payments) | currency}}</b></td>
+					</tr>					
+				</table>				
 			</div>
 			<input type="submit" class="btn btn-success" value="Novo pagamento"
 			ng-click="abrirNovoPagamentoForm()"/>
@@ -201,9 +205,12 @@
 </p>
 
 <div ng-controller="fecharSeasonController">
-<button type="submit" ng-click="fecharSeason(temporada)" class="btn btn-primary">Fechar temporada</button>
+<button type="submit" ng-click="fecharSeason(temporada.id)" class="btn btn-primary">Fechar temporada</button>
 </div>
-
+</div>
+<br/>
+<div>
+<a href="#/temporada/listar">Voltar</a>
 </div>
 
 
