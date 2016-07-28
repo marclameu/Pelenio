@@ -42,7 +42,12 @@ angular.module('pelenio').controller('pagamentoSeasonController', function($scop
 
 	$scope.delete = function(id){
 		if(confirm('Deseja excluir o pagamento?')){
-			ngToast.create('Pagamento excluído com sucesso!');
+			expenseService.deletarPagamento(id).success(function(response){
+				ngToast.create(response.Mensagem);
+				$scope.getExpensesBySeasonId(seasonId)
+			}).error(function(response){
+				console.log(response.Mensagem);
+			});			
 		}
 	}
 

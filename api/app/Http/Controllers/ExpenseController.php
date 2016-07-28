@@ -33,9 +33,15 @@ class ExpenseController extends Controller
 
     		$expense->save();
 
-    		response()->json(["Mensagem" => "Pagamento criado com sucesso!"]);
+    		return response()->json(["Mensagem" => "Pagamento criado com sucesso!"]);
 
     	} catch (Exception $e) {    		
     	}
+    }
+
+    public function delete($id){
+        $this->_expense->destroy($id);
+
+        return response()->json(["Mensagem" => "Pagamento excluído com sucesso!"]);
     }
 }

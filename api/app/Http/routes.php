@@ -31,6 +31,7 @@ Route::group(['middleware' => ['cors'], 'prefix' => 'api'], function(){
 
     Route::get('expense/getExpensesBySeasonId/{id}', 'ExpenseController@getExpensesBySeasonId');
     Route::post('expense/salvarPagamento', 'ExpenseController@salvarPagamento');
+    Route::delete('expense/{id}', 'ExpenseController@delete');
 });
 
 Route::get('/', function () {

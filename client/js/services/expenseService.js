@@ -7,8 +7,13 @@ angular.module('pelenio').factory('expenseService', function($http, config){
 		return $http.post(config.baseUrlApi + '/expense/salvarPagamento', pagamento);
 	}
 
+	var _deletarPagamento = function(id){
+		return $http.delete(config.baseUrlApi + '/expense/' + id);
+	}
+
 	return {
 		getExpensesBySeasonId: _getExpensesBySeasonId,
-		salvarPagamento: _salvarPagamento
+		salvarPagamento: _salvarPagamento,
+		deletarPagamento: _deletarPagamento
 	}	
 });
