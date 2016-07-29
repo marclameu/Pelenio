@@ -75,8 +75,10 @@ class SeasonController extends Controller
         }
     }
 
-    public function fechar($id)
+    public function fechar(Request $request)
     {        
-       return response()->json($this->_season->fecharSeasonPorId($id));
+       $id      =  $request->input('id');
+       $dataFim =  $request->input('end');        
+       return response()->json($this->_season->fecharSeasonPorId($id, $dataFim));
     }
 }

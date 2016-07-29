@@ -55,8 +55,9 @@ class Season extends Model
         */
     }
 
-    public function fecharSeasonPorId($id){
+    public function fecharSeasonPorId($id, $dataFim){
         $season = $this->find($id);
+        $season->end    =   $dataFim;
         $season->income =   $season->calculaRendaTotalDinheiro();
         $season->total  =   $season->calculaTotalAbsoluto();
 

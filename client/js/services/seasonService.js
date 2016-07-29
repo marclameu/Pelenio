@@ -16,8 +16,8 @@ angular.module('pelenio').factory('seasonService', function($http, config){
 		return $http.post(config.baseUrlApi + '/season/adicionarPartida', partida);
 	}
 
-	_fecharSeason = function(id){
-		return $http.post(config.baseUrlApi + '/season/fechar/' + id);
+	_fecharSeason = function(params){
+		return $http.post(config.baseUrlApi + '/season/fechar', params);
 	}
 
 	return{

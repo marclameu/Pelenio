@@ -9,9 +9,14 @@ angular.module('pelenio').factory('sharedPropertiesService', function(){
 		return seasonId;
 	}
 
-	return{
-		setSeasonId: _setSeasonId,
+	var _formateDateFromServer = function(strDate, separator){
+		d = strDate.split('-');
+		return d[2] + separator + d[1] + separator + d[0];
+	}
 
-		getSeasonId: _getSeasonId
+	return{
+		setSeasonId: 			_setSeasonId,
+		getSeasonId: 			_getSeasonId,
+		formateDateFromServer: 	_formateDateFromServer
 	}
 });

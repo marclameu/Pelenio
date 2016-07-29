@@ -120,11 +120,6 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		});		
 	}
 
-	$scope.formateDateFromServer = function(strDate, separator){
-		d = strDate.split('-');
-		return d[2] + separator + d[1] + separator + d[0];
-	}
-
 	$scope.formateDateToView = function(strDate, separator){
 		if(strDate === undefined)
 			return '';
@@ -174,12 +169,8 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
 		usuarios.forEach(function(usuario){
 			if(usuario.seasons.length > 0){
 				$scope.payment[usuario.id] 				= usuario.seasons[0].pivot.payment;
-				$scope.datePayment[usuario.id]			= $scope.formateDateFromServer(usuario.seasons[0].pivot.date_payment, '/');								
-				//$scope.payment_type[usuario.id]			= getTipoPagamento(parseInt(usuario.seasons[0].pivot.payment_type));
+				$scope.datePayment[usuario.id]			= sharedPropertiesService.formateDateFromServer(usuario.seasons[0].pivot.date_payment, '/');								
 				$scope.payment_type[usuario.id]			= $scope.getTipoPagamento(usuario.seasons[0].pivot.payment_type);
-				/*$scope.payment_type[usuario.id] 		= {type: usuario.seasons[0].pivot.payment_type, 
-														   name: getTipoPagamento(parseInt(usuario.seasons[0].pivot.payment_type))};*/
-
 			}
 			$scope.modoEdit[usuario.id] 	= false;			
 		});		
@@ -303,6 +294,21 @@ angular.module('pelenio').controller('detalharSeasonController', function($scope
     		console.log('Erro ao carregar valores - ' + response);
     	});
     }   
+
+    $scope.abrirPopupFecharSeason = function(_temporada){
+    	modalInstance = $uibModal.open({
+    		templateUrl: 'view/seasons/tplFecharTemporada.html',
+    		size: 'sm', 
+    		controller: 'fecharSeasonController', 
+    		resolve: {
+    			temporada: _temporada
+    		}
+    	});
+
+    	modalInstance.result.then(function(){
+
+    	});
+    }
 
 	carregarUsuarios($routeParams.id);	
 });
